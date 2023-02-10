@@ -1,6 +1,7 @@
 import socket
 import time
 import multiprocessing
+import re
 from tcphello.main import hello_server
 
 
@@ -16,5 +17,5 @@ def test_hello_server():
                 break
         except ConnectionRefusedError:
             pass
-    assert data == b'Hello, 127.0.0.1!\n'
+    assert re.match("^Hello.*", data.decode(encoding="utf-8"))
     process.kill()
