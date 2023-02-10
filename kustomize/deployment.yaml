@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: tcphello
-        image: ghcr.io/eyablonowitz/tcphello:0.1.0
+        image: ghcr.io/eyablonowitz/tcphello:0.2.0
         imagePullPolicy: IfNotPresent
         ports:
         - name: hello
