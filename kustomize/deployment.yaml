@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcphello
+spec:
+  minReadySeconds: 3
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 60
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: tcphello
+  template:
+    metadata:
+      labels:
+        app: tcphello
+    spec:
+      containers:
+      - name: tcphello
+        image: ghcr.io/eyablonowitz/tcphello:0.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: hello
+          containerPort: 12345
+          protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            port: 12345
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: 12345
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
+
